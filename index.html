@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Apoio ao Estudante - C.E. Visconde de Guarapuava</title>
+    <style>
+        /* CSS Integrado - Estilização do Portal */
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #e53e3e;
+            --warning-bg: #fff5f5;
+            --light-bg: #f7fafc;
+            --text-color: #2d3748;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 5px solid var(--secondary-color);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: var(--secondary-color);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: var(--white);
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background-color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            background: var(--white);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Seção em Destaque: Violência Contra a Mulher */
+        .highlight-section {
+            background-color: var(--warning-bg);
+            border-left: 6px solid var(--accent-color);
+        }
+
+        .highlight-section h2 {
+            color: var(--accent-color);
+            border-bottom-color: #feb2b2;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid #feb2b2;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #c53030;
+        }
+
+        /* Quiz Interativo */
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: var(--light-bg);
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            background: #e2e8f0;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+            font-weight: bold;
+        }
+
+        /* Canais de Contato */
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .contact-card {
+            background: var(--light-bg);
+            padding: 1.2rem;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .contact-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+            nav a {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Portal de Apoio ao Estudante</h1>
+        <p>Colégio Estadual Visconde de Guarapuava — Um espaço de respeito, empatia e proteção</p>
+    </header>
+
+    <nav>
+        <a href="#acolhimento">Acolhimento</a>
+        <a href="#destaque-violencia">Conscientização & Realidade</a>
+        <a href="#interativo">Quiz de Conscientização</a>
+        <a href="#denuncia">Canais de Ajuda</a>
+    </nav>
+
+    <div class="container">
+
+        <section id="acolhimento">
+            <h2>Bem-vindo(a) ao Nosso Espaço de Apoio</h2>
+            <p>O ambiente escolar deve ser um lugar seguro para todos. A empatia e o respeito são valores fundamentais para a convivência do Colégio Estadual Visconde de Guarapuava. Se você está passando por dificuldades, presencia situações injustas ou precisa conversar com alguém de confiança, você não está sozinho(a).</p>
+        </section>
+
+        <section id="destaque-violencia" class="highlight-section">
+            <h2>Destaque: Enfrentamento à Violência contra a Mulher em Guarapuava</h2>
+            <p>A violência contra a mulher não é apenas física; ela envolve agressões verbais, psicológicas, patrimoniais e patrimoniais/sexuais. Em Guarapuava, os índices de violência doméstica e de gênero reforçam a importância de atuarmos juntos para interromper esse ciclo desde a juventude.</p>
+            
+            <div class="stat-card">
+                <h3>O Cenário Local</h3>
+                <p>O município de Guarapuava apresenta altos índices de chamados e medidas protetivas ligadas à violência doméstica na região do Terceiro Planalto Paranaense. Muitos casos ocorrem no ambiente familiar ou em namoros abusivos entre jovens.</p>
+            </div>
+
+            <p><strong>Sinais de um relacionamento abusivo entre jovens:</strong></p>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Controle excessivo sobre roupas, redes sociais ou amizades;</li>
+                <li>Humilhações em público ou em mensagens privadas;</li>
+                <li>Chantagem emocional, ameaças de término ou intimidação;</li>
+                <li>Forçar situações interpessoais sem o consentimento da companheira.</li>
+            </ul>
+
+            <p style="margin-top: 1rem;"><strong>Sua atitude faz a diferença:</strong> Se você presenciar atitudes machistas, violência física ou psicológica, não se cale. Romper com o silêncio é o primeiro passo para salvar vidas.</p>
+        </section>
+
+        <section id="interativo">
+            <h2>Quiz Interativo: O que fazer diante da violência ou preconceito?</h2>
+            <p>Responda à questão abaixo para testar sua atitude diante de uma situação do dia a dia:</p>
+            
+            <div style="margin-top: 1.5rem;">
+                <p><strong>Cenário:</strong> Você percebe que uma colega de sala está sendo intimidada ou controlada constantemente pelo namorado/colega, aparentando medo e isolamento. Qual é a melhor postura?</p>
+                
+                <button class="quiz-option" onclick="responderQuiz(1)">A) Não me envolvo, pois "em briga de marido/namorados não se mete a colher".</button>
+                <button class="quiz-option" onclick="responderQuiz(2)">B) Apoio a colega em particular, demonstro empatia e a incentivo a procurar auxílio da equipe pedagógica ou dos canais de denúncia.</button>
+                <button class="quiz-option" onclick="responderQuiz(3)">C) Repasso boatos sobre a situação para outros colegas nas redes sociais.</button>
+            </div>
+
+            <div id="feedback-quiz" class="quiz-feedback"></div>
+        </section>
+
+        <section id="denuncia">
+            <h2>Onde Buscar Ajuda e Como Denunciar</h2>
+            <p>Se você é vítima ou testemunha de violência, abuso ou intimidação, recorra aos canais oficiais ou a um adulto de confiança da escola.</p>
+
+            <div class="contacts-grid">
+                <div class="contact-card">
+                    <h3>Central de Atendimento à Mulher</h3>
+                    <p><strong>Telefone:</strong> Ligue 180 (Gratuito e Anônimo)</p>
+                    <p><strong>WhatsApp Oficial:</strong> (61) 9610-0180</p>
+                    <p>Atendimento 24h para orientações e denúncias.</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Delegacia da Mulher de Guarapuava</h3>
+                    <p><strong>Endereço:</strong> Rua Guaíra, 4284 — Bairro Batel</p>
+                    <p><strong>Telefone:</strong> (42) 3626-2818</p>
+                    <p>Atendimento especializado para ocorrências e proteção.</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Emergência Policial</h3>
+                    <p><strong>Polícia Militar:</strong> Ligue 190</p>
+                    <p>Para casos de urgência ou flagrante agressão.</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Apoio no C.E. Visconde de Guarapuava</h3>
+                    <p>Procure a <strong>Equipe Pedagógica</strong>, a <strong>Direção</strong> ou o <strong>Conselho Tutelar</strong> do município.</p>
+                    <p>Garantia de acolhimento e escuta sem julgamentos.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; Portal de Conscientização e Apoio ao Estudante | Colégio Estadual Visconde de Guarapuava</p>
+    </footer>
+
+    <script>
+        function responderQuiz(opcao) {
+            const feedback = document.getElementById('feedback-quiz');
+            feedback.style.display = 'block';
+
+            if (opcao === 2) {
+                feedback.style.backgroundColor = '#c6f6d5';
+                feedback.style.color = '#22543d';
+                feedback.innerHTML = ' Correcto! A empatia e a orientação para buscar ajuda especializada/pedagógica ajudam a romper o ciclo de violência de forma segura.';
+            } else {
+                feedback.style.backgroundColor = '#fed7d7';
+                feedback.style.color = '#742a2a';
+                feedback.innerHTML = ' Agressões e dinâmicas abusivas não devem ser ignoradas ou expostas. O correto é oferecer suporte acolhedor e orientar a busca de ajuda profissional e de órgãos de proteção.';
+            }
+        }
+    </script>
+</body>
+</html>
