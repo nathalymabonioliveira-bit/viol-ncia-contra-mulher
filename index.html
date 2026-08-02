@@ -221,5 +221,169 @@
     </section>
 
 </div>
+<script>
+    // ==========================================
+    // 1. SISTEMA DE QUIZZES (3 PERGUNTAS COM FEEDBACK VISUAL)
+    // ==========================================
+    const quizData = [
+        {
+            question: "1. A Lei Maria da Penha (Lei nº 11.340) se aplica a relacionamentos de namoro entre jovens?",
+            options: [
+                "A) Não, aplica-se exclusivamente a casais casados ou que moram juntos.",
+                "B) Sim, protege mulheres em qualquer relação íntima de afeto, independente de coabitação ou casamento.",
+                "C) Apenas se houver agressão física comprovada por laudo médico."
+            ],
+            correct: 1,
+            explanation: "Correto! A lei protege contra violência em relacionamentos íntimos de afeto (incluindo namoro), sem exigir que morem juntos e cobrindo violências física, psicológica, sexual, patrimonial e moral."
+        },
+        {
+            question: "2. Exigir senhas de redes sociais, proibir de ver amigas e controlar as roupas da parceira é considerado:",
+            options: [
+                "A) Cuidado saudável e demonstração de proteção do namorado.",
+                "B) Apenas um ciúme bobo que passa com o tempo e não traz riscos.",
+                "C) Violência psicológica e controle comportamental, indícios claros de relacionamento abusivo."
+            ],
+            correct: 2,
+            explanation: "Exato! O controle excessivo e a invasão de privacidade configuram violência psicológica e são sinais de alerta para um ciclo de abusos mais graves."
+        },
+        {
+            question: "3. Qual o papel do NUMAPE (Unicentro) e da Delegacia da Mulher em Guarapuava?",
+            options: [
+                "A) Oferecer apoio jurídico/psicológico gratuito (NUMAPE) e investigar infrações com aplicação de medidas protetivas (Delegacia).",
+                "B) Apenas aplicar multas financeiras para quem comete pequenos deslizes no namoro.",
+                "C) Atender exclusivamente pessoas com renda acima de 5 salários mínimos."
+            ],
+            correct: 0,
+            explanation: "Perfeito! O NUMAPE oferece acolhimento psicológico e orientação jurídica gratuita na Unicentro, enquanto a Delegacia da Mulher atua na proteção direta e medidas protetivas."
+        }
+    ];
+
+    function renderQuiz() {
+        const quizContainer = document.getElementById('quiz-content');
+        quizContainer.innerHTML = '';
+
+        quizData.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.style.marginBottom = '30px';
+            card.innerHTML = `
+                <p style="font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; color: var(--rosa-neon);">${q.question}</p>
+                ${q.options.map((opt, optIndex) => `
+                    <button class="quiz-opt" onclick="checkAnswer(${index}, ${optIndex})">${opt}</button>
+                `).join('')}
+                <div id="feedback-${index}" class="feedback"></div>
+            `;
+            quizContainer.appendChild(card);
+        });
+    }
+
+    function checkAnswer(qIndex, optIndex) {
+        const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
+        const currentQ = quizData[qIndex];
+
+        feedbackDiv.style.display = 'block';
+
+        if (optIndex === currentQ.correct) {
+            feedbackDiv.style.background = 'rgba(16, 185, 129, 0.2)';
+            feedbackDiv.style.border = '1px solid var(--verde-sucesso)';
+            feedbackDiv.style.color = '#10b981';
+            feedbackDiv.innerHTML = `✅ <strong>Correto!</strong> ${currentQ.explanation}`;
+        } else {
+            feedbackDiv.style.background = 'rgba(239, 68, 68, 0.2)';
+            feedbackDiv.style.border = '1px solid var(--vermelho-alerta)';
+            feedbackDiv.style.color = '#ef4444';
+            feedbackDiv.innerHTML = `❌ <strong>Incorreto.</strong> Tente novamente ou releia o conteúdo acima.`;
+        }
+    }
+
+    renderQuiz();
+
+    // ==========================================
+    // 2. JOGO DA MEMÓRIA (PROBLEMA vs SOLUÇÃO)
+    // ==========================================
+    const memoryData = [
+        { id: 1, type: 'prob', text: 'Chantagem Emocional' },
+        { id: 1, type: 'sol', text: 'Apoio Psicológico' },
+        { id: 2, type: 'prob', text: 'Agressão Física' },
+        { id: 2, type: 'sol', text: 'Ligue 180 / 190' },
+        { id: 3, type: 'prob', text: 'Controle de Redes' },
+        { id: 3, type: 'sol', text: 'Respeito à Privacidade' },
+        { id: 4, type: 'prob', text: 'Isolamento Social' },
+        { id: 4, type: 'sol', text: 'Ajuda Pedagógica' }
+    ];
+
+    let flippedCards = [];
+    let matchedPairs = 0;
+
+    function initMemoryGame() {
+        const grid = document.getElementById('memoryGrid');
+        grid.innerHTML = '';
+        const shuffled = [...memoryData].sort(() => Math.random() - 0.5);
+
+        shuffled.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'memory-card';
+            card.dataset.id = item.id;
+            card.dataset.text = item.text;
+            card.innerText = '❓';
+            card.onclick = () => flipMemoryCard(card);
+            grid.appendChild(card);
+        });
+    }
+
+    function flipMemoryCard(card) {
+        if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
+            card.classList.add('flipped');
+            card.innerText = card.dataset.text;
+            card.style.fontSize = '0.75rem';
+            card.style.padding = '5px';
+            card.style.textAlign = 'center';
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                setTimeout(checkMemoryMatch, 1000);
+            }
+        }
+    }
+
+    function checkMemoryMatch() {
+        const [c1, c2] = flippedCards;
+        if (c1.dataset.id === c2.dataset.id) {
+            c1.style.background = 'var(--verde-sucesso)';
+            c2.style.background = 'var(--verde-sucesso)';
+            c1.style.color = 'white';
+            c2.style.color = 'white';
+            matchedPairs++;
+            if (matchedPairs === 4) {
+                document.getElementById('memoryMessage').innerText = '🎉 Parabéns! Você encontrou todas as soluções!';
+            }
+        } else {
+            c1.classList.remove('flipped');
+            c2.classList.remove('flipped');
+            c1.innerText = '❓';
+            c2.innerText = '❓';
+            c1.style.fontSize = '1.5rem';
+            c2.style.fontSize = '1.5rem';
+            c1.style.background = 'var(--rosa-ameixa)';
+            c2.style.background = 'var(--rosa-ameixa)';
+        }
+        flippedCards = [];
+    }
+
+    initMemoryGame();
+
+    // ==========================================
+    // 3. MINI-GAME RUNNER DO RESPEITO
+    // ==========================================
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let score = 0;
+    let gameSpeed = 6;
+    let isJumping = false;
+    let jumpY = 0;
+    let jumpVelocity = 0;
+    const gravity = 0.7;
+
+    const player = { x: 5
 
 
