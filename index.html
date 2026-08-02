@@ -3,303 +3,794 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Apoio ao Estudante - C.E. Visconde de Guarapuava</title>
+    <title>Portal Visconde - Apoio e Respeito</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Integrado - Estilização do Portal */
         :root {
-            --primary-color: #1a365d;
-            --secondary-color: #2b6cb0;
-            --accent-color: #e53e3e;
-            --warning-bg: #fff5f5;
-            --light-bg: #f7fafc;
-            --text-color: #2d3748;
-            --white: #ffffff;
+            --rosa-ameixa: #873260;
+            --rosa-claro: #fdf2f8;
+            --texto-escuro: #2d1a24;
+            --branco: #ffffff;
+            --cinza-uniforme: #8a8a8a;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: var(--light-bg);
-            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--rosa-claro);
+            color: var(--texto-escuro);
             line-height: 1.6;
         }
 
+        /* Header e Navegação */
         header {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 2rem 1rem;
+            background-color: var(--rosa-ameixa);
+            color: var(--branco);
+            padding: 3rem 1rem;
             text-align: center;
-            border-bottom: 5px solid var(--secondary-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
+        header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
 
         nav {
-            background-color: var(--secondary-color);
+            background: #4a1b33;
+            padding: 1rem;
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
+            gap: 20px;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
         nav a {
-            color: var(--white);
-            padding: 1rem 1.5rem;
+            color: white;
             text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
         }
 
-        nav a:hover {
-            background-color: var(--primary-color);
-        }
+        nav a:hover { color: #ffb7d5; }
 
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 20px; }
 
+        /* Seções */
         section {
-            background: var(--white);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        h2 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 0.5rem;
+        h2 { color: var(--rosa-ameixa); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+        /* Estilo Jogo Retro */
+        #game-container {
+            background: #222;
+            border: 5px solid var(--rosa-ameixa);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
         }
 
-        /* Seção em Destaque: Violência Contra a Mulher */
-        .highlight-section {
-            background-color: var(--warning-bg);
-            border-left: 6px solid var(--accent-color);
-        }
-
-        .highlight-section h2 {
-            color: var(--accent-color);
-            border-bottom-color: #feb2b2;
-        }
-
-        .stat-card {
-            background: #fff;
-            border: 1px solid #feb2b2;
-            padding: 1rem;
-            border-radius: 6px;
-            margin: 1rem 0;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--white);
-            padding: 0.75rem 1.5rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 1rem;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn:hover {
-            background-color: #c53030;
-        }
-
-        /* Quiz Interativo */
-        .quiz-option {
+        canvas {
+            background: #87ceeb; /* Céu */
             display: block;
+            image-rendering: pixelated; /* Deixa o jogo com cara de antigo */
+        }
+
+        .game-info {
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            margin-bottom: 10px;
             width: 100%;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            background: var(--light-bg);
-            border: 1px solid #cbd5e0;
-            border-radius: 4px;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
         }
 
-        .quiz-option:hover {
-            background: #e2e8f0;
+        /* Quizzes Avançados */
+        .quiz-card {
+            border-left: 5px solid var(--rosa-ameixa);
+            background: #fff9fb;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        .quiz-feedback {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 4px;
-            display: none;
-            font-weight: bold;
-        }
-
-        /* Canais de Contato */
-        .contacts-grid {
+        .options-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
+            gap: 10px;
+            margin-top: 15px;
         }
 
-        .contact-card {
-            background: var(--light-bg);
-            padding: 1.2rem;
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
+        .opt-btn {
+            background: white;
+            border: 2px solid var(--rosa-ameixa);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
         }
 
-        .contact-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
+        .opt-btn:hover { background: var(--rosa-ameixa); color: white; }
+
+        /* Violência em Guarapuava */
+        .guarapuava-alerta {
+            background: #873260;
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
         }
 
-        footer {
-            background-color: var(--primary-color);
-            color: var(--white);
+        .stats-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
             text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
         }
 
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-            }
-            nav a {
-                text-align: center;
-            }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+
+        .btn-jump {
+            margin-top: 10px;
+            padding: 15px 30px;
+            background: #444;
+            color: white;
+            border: none;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Portal de Apoio ao Estudante</h1>
-        <p>Colégio Estadual Visconde de Guarapuava — Um espaço de respeito, empatia e proteção</p>
-    </header>
+<header>
+    <h1>Portal de Apoio Visconde</h1>
+    <p>Colégio Estadual Visconde de Guarapuava</p>
+</header>
 
-    <nav>
-        <a href="#acolhimento">Acolhimento</a>
-        <a href="#destaque-violencia">Conscientização & Realidade</a>
-        <a href="#interativo">Quiz de Conscientização</a>
-        <a href="#denuncia">Canais de Ajuda</a>
-    </nav>
+<nav>
+    <a href="#alerta">Dados Locais</a>
+    <a href="#jogo">Mini-Game Retro</a>
+    <a href="#quizzes">Quizzes Desafio</a>
+    <a href="#ajuda">Denuncie</a>
+</nav>
 
-    <div class="container">
+<div class="container">
 
-        <section id="acolhimento">
-            <h2>Bem-vindo(a) ao Nosso Espaço de Apoio</h2>
-            <p>O ambiente escolar deve ser um lugar seguro para todos. A empatia e o respeito são valores fundamentais para a convivência do Colégio Estadual Visconde de Guarapuava. Se você está passando por dificuldades, presencia situações injustas ou precisa conversar com alguém de confiança, você não está sozinho(a).</p>
-        </section>
+    <section id="alerta" class="guarapuava-alerta">
+        <h2>⚠️ Violência em Guarapuava</h2>
+        <p>Infelizmente, nossa cidade registra altos índices de violência contra a mulher. No último ano, Guarapuava viu um aumento nas medidas protetivas e casos de feminicídio. O silêncio é o maior aliado do agressor.</p>
+        
+        <div class="stats-box">
+            <div class="stat-item">
+                <h3>NUMAPE</h3>
+                <p>O Núcleo Maria da Penha da Unicentro oferece apoio jurídico gratuito em nossa cidade.</p>
+            </div>
+            <div class="stat-item">
+                <h3>Delegacia da Mulher</h3>
+                <p>Localizada no bairro Batel, é o ponto principal de proteção em Guarapuava.</p>
+            </div>
+        </div>
+        <p style="margin-top:20px; font-weight: bold;">Estudante: Se você percebe que uma amiga está sofrendo controle ou agressão no namoro, fale com um professor agora!</p>
+    </section>
 
-        <section id="destaque-violencia" class="highlight-section">
-            <h2>Destaque: Enfrentamento à Violência contra a Mulher em Guarapuava</h2>
-            <p>A violência contra a mulher não é apenas física; ela envolve agressões verbais, psicológicas, patrimoniais e patrimoniais/sexuais. Em Guarapuava, os índices de violência doméstica e de gênero reforçam a importância de atuarmos juntos para interromper esse ciclo desde a juventude.</p>
-            
-            <div class="stat-card">
-                <h3>O Cenário Local</h3>
-                <p>O município de Guarapuava apresenta altos índices de chamados e medidas protetivas ligadas à violência doméstica na região do Terceiro Planalto Paranaense. Muitos casos ocorrem no ambiente familiar ou em namoros abusivos entre jovens.</p>
+    <section id="jogo">
+        <h2>🎮 Mini-Game: Respeito em Ação</h2>
+        <p>Pule sobre as "Palavras Tóxicas" (Vermelho) e colete "Apoio" (Verde). Use o uniforme do Visconde com orgulho!</p>
+        <div id="game-container">
+            <div class="game-info">
+                <span>PONTOS: <span id="score">0</span></span>
+                <span>Pressione ESPAÇO ou Botão para PULAR</span>
+            </div>
+            <canvas id="gameCanvas" width="800" height="200"></canvas>
+            <button class="btn-jump" onmousedown="jump()">PULAR!</button>
+        </div>
+    </section>
+
+    <section id="quizzes">
+        <h2>🧠 Desafios de Conscientização</h2>
+        <p>Teste seus conhecimentos sobre leis e situações reais.</p>
+
+        <div id="quiz-area">
+            <div class="quiz-card">
+                <p><strong>1. Sobre a Lei Maria da Penha, qual afirmação é correta em nível jurídico?</strong></p>
+                <div class="options-grid">
+                    <button class="opt-btn" onclick="checkQuiz(1, false)">A) Só existe crime se houver agressão física com marcas visíveis.</button>
+                    <button class="opt-btn" onclick="checkQuiz(1, true)">B) A lei abrange violência psicológica, sexual, patrimonial e moral.</button>
+                    <button class="opt-btn" onclick="checkQuiz(1, false)">C) No namoro entre jovens, a lei não se aplica, apenas após o casamento.</button>
+                </div>
             </div>
 
-            <p><strong>Sinais de um relacionamento abusivo entre jovens:</strong></p>
-            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                <li>Controle excessivo sobre roupas, redes sociais ou amizades;</li>
-                <li>Humilhações em público ou em mensagens privadas;</li>
-                <li>Chantagem emocional, ameaças de término ou intimidação;</li>
-                <li>Forçar situações interpessoais sem o consentimento da companheira.</li>
-            </ul>
-
-            <p style="margin-top: 1rem;"><strong>Sua atitude faz a diferença:</strong> Se você presenciar atitudes machistas, violência física ou psicológica, não se cale. Romper com o silêncio é o primeiro passo para salvar vidas.</p>
-        </section>
-
-        <section id="interativo">
-            <h2>Quiz Interativo: O que fazer diante da violência ou preconceito?</h2>
-            <p>Responda à questão abaixo para testar sua atitude diante de uma situação do dia a dia:</p>
-            
-            <div style="margin-top: 1.5rem;">
-                <p><strong>Cenário:</strong> Você percebe que uma colega de sala está sendo intimidada ou controlada constantemente pelo namorado/colega, aparentando medo e isolamento. Qual é a melhor postura?</p>
-                
-                <button class="quiz-option" onclick="responderQuiz(1)">A) Não me envolvo, pois "em briga de marido/namorados não se mete a colher".</button>
-                <button class="quiz-option" onclick="responderQuiz(2)">B) Apoio a colega em particular, demonstro empatia e a incentivo a procurar auxílio da equipe pedagógica ou dos canais de denúncia.</button>
-                <button class="quiz-option" onclick="responderQuiz(3)">C) Repasso boatos sobre a situação para outros colegas nas redes sociais.</button>
-            </div>
-
-            <div id="feedback-quiz" class="quiz-feedback"></div>
-        </section>
-
-        <section id="denuncia">
-            <h2>Onde Buscar Ajuda e Como Denunciar</h2>
-            <p>Se você é vítima ou testemunha de violência, abuso ou intimidação, recorra aos canais oficiais ou a um adulto de confiança da escola.</p>
-
-            <div class="contacts-grid">
-                <div class="contact-card">
-                    <h3>Central de Atendimento à Mulher</h3>
-                    <p><strong>Telefone:</strong> Ligue 180 (Gratuito e Anônimo)</p>
-                    <p><strong>WhatsApp Oficial:</strong> (61) 9610-0180</p>
-                    <p>Atendimento 24h para orientações e denúncias.</p>
-                </div>
-
-                <div class="contact-card">
-                    <h3>Delegacia da Mulher de Guarapuava</h3>
-                    <p><strong>Endereço:</strong> Rua Guaíra, 4284 — Bairro Batel</p>
-                    <p><strong>Telefone:</strong> (42) 3626-2818</p>
-                    <p>Atendimento especializado para ocorrências e proteção.</p>
-                </div>
-
-                <div class="contact-card">
-                    <h3>Emergência Policial</h3>
-                    <p><strong>Polícia Militar:</strong> Ligue 190</p>
-                    <p>Para casos de urgência ou flagrante agressão.</p>
-                </div>
-
-                <div class="contact-card">
-                    <h3>Apoio no C.E. Visconde de Guarapuava</h3>
-                    <p>Procure a <strong>Equipe Pedagógica</strong>, a <strong>Direção</strong> ou o <strong>Conselho Tutelar</strong> do município.</p>
-                    <p>Garantia de acolhimento e escuta sem julgamentos.</p>
+            <div class="quiz-card">
+                <p><strong>2. Um colega exige a senha das redes sociais da namorada para "provar confiança". Isso se configura como:</strong></p>
+                <div class="options-grid">
+                    <button class="opt-btn" onclick="checkQuiz(2, false)">A) Uma prova de amor moderna e necessária.</button>
+                    <button class="opt-btn" onclick="checkQuiz(2, true)">B) Violência psicológica e invasão de privacidade, indícios de relacionamento abusivo.</button>
+                    <button class="opt-btn" onclick="checkQuiz(2, false)">C) Apenas cuidado excessivo que não traz riscos.</button>
                 </div>
             </div>
-        </section>
+        </div>
+        <div id="quiz-result" style="font-weight: bold; text-align: center; color: var(--rosa-ameixa);"></div>
+    </section>
 
-    </div>
+    <section id="ajuda">
+        <h2>📞 Canais de Apoio em Guarapuava</h2>
+        <ul>
+            <li><strong>Polícia Militar:</strong> 190 (Emergências)</li>
+            <li><strong>Delegacia da Mulher Guarapuava:</strong> (42) 3630-1700</li>
+            <li><strong>Ligue 180:</strong> Central de Atendimento Nacional</li>
+            <li><strong>Equipe Pedagógica:</strong> Procure a sala da pedagoga no Colégio Visconde.</li>
+        </ul>
+    </section>
 
-    <footer>
-        <p>&copy; Portal de Conscientização e Apoio ao Estudante | Colégio Estadual Visconde de Guarapuava</p>
-    </footer>
+</div>
 
-    <script>
-        function responderQuiz(opcao) {
-            const feedback = document.getElementById('feedback-quiz');
-            feedback.style.display = 'block';
+<div class="footer">
+    <p>Desenvolvido para o Colégio Estadual Visconde de Guarapuava.</p>
+</div>
 
-            if (opcao === 2) {
-                feedback.style.backgroundColor = '#c6f6d5';
-                feedback.style.color = '#22543d';
-                feedback.innerHTML = ' Correcto! A empatia e a orientação para buscar ajuda especializada/pedagógica ajudam a romper o ciclo de violência de forma segura.';
-            } else {
-                feedback.style.backgroundColor = '#fed7d7';
-                feedback.style.color = '#742a2a';
-                feedback.innerHTML = ' Agressões e dinâmicas abusivas não devem ser ignoradas ou expostas. O correto é oferecer suporte acolhedor e orientar a busca de ajuda profissional e de órgãos de proteção.';
+<script>
+    // --- LÓGICA DO QUIZ ---
+    function checkQuiz(question, isCorrect) {
+        const resultDiv = document.getElementById('quiz-result');
+        if(isCorrect) {
+            resultDiv.innerHTML = "✅ Resposta correta! Você entende os limites do respeito.";
+            resultDiv.style.color = "green";
+        } else {
+            resultDiv.innerHTML = "❌ Resposta incorreta. Lembre-se: violência vai muito além do contato físico.";
+            resultDiv.style.color = "red";
+        }
+    }
+
+    // --- LÓGICA DO JOGO RETRO (PIXEL ART) ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreElement = document.getElementById('score');
+
+    let score = 0;
+    let gameSpeed = 4;
+    let isJumping = false;
+    let jumpY = 0;
+    let jumpVelocity = 0;
+    const gravity = 0.8;
+
+    const player = {
+        x: 50,
+        y: 150,
+        width: 30,
+        height: 50
+    };
+
+    let obstacles = [];
+    let items = [];
+
+    function drawPlayer() {
+        const drawY = player.y - jumpY;
+        
+        // Desenho Pixel Art do Aluno do Visconde
+        // Calça Cinza
+        ctx.fillStyle = "#8a8a8a";
+        ctx.fillRect(player.x + 5, drawY + 25, 20, 25);
+        // Faixa branca na calça
+        ctx.fillStyle = "white";
+        ctx.fillRect(player.x + 22, drawY + 25, 3, 25);
+        
+        // Blusa Branca
+        ctx.fillStyle = "white";
+        ctx.fillRect(player.x, drawY + 10, 30, 20);
+        
+        // Logo Simulado (Círculos coloridos pequenos)
+        ctx.fillStyle = "red"; ctx.fillRect(player.x + 5, drawY + 15, 4, 4);
+        ctx.fillStyle = "blue"; ctx.fillRect(player.x + 10, drawY + 15, 4, 4);
+        ctx.fillStyle = "yellow"; ctx.fillRect(player.x + 15, drawY + 15, 4, 4);
+        ctx.fillStyle = "green"; ctx.fillRect(player.x + 20, drawY + 15, 4, 4);
+        
+        // Texto "V" no peito
+        ctx.fillStyle = "black";
+        ctx.font = "8px Arial";
+        ctx.fillText("V", player.x + 12, drawY + 13);
+
+        // Cabeça
+        ctx.fillStyle = "#ffdbac";
+        ctx.fillRect(player.x + 7, drawY, 16, 16);
+        // Cabelo
+        ctx.fillStyle = "#4b2c20";
+        ctx.fillRect(player.x + 7, drawY, 16, 5);
+    }
+
+    function createObstacle() {
+        if (Math.random() < 0.02) {
+            obstacles.push({ x: 850, y: 170, width: 40, height: 30, text: "TÓXICO" });
+        }
+    }
+
+    function drawObstacles() {
+        obstacles.forEach((obs, index) => {
+            obs.x -= gameSpeed;
+            ctx.fillStyle = "#ff4444";
+            ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+            ctx.fillStyle = "white";
+            ctx.font = "8px 'Press Start 2P'";
+            ctx.fillText("!", obs.x + 15, obs.y + 20);
+
+            // Colisão
+            if (player.x < obs.x + obs.width &&
+                player.x + player.width > obs.x &&
+                (player.y - jumpY) < obs.y + obs.height &&
+                (player.y - jumpY) + player.height > obs.y) {
+                gameOver();
+            }
+
+            if (obs.x < -50) obstacles.splice(index, 1);
+        });
+    }
+
+    function jump() {
+        if (!isJumping) {
+            isJumping = true;
+            jumpVelocity = 15;
+        }
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') jump();
+    });
+
+    function gameOver() {
+        alert("Ops! Você atingiu um comportamento tóxico. Vamos tentar de novo com respeito?");
+        score = 0;
+        obstacles = [];
+        scoreElement.innerText = score;
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Chão
+        ctx.fillStyle = "#555";
+        ctx.fillRect(0, 195, 800, 5);
+
+        if (isJumping) {
+            jumpY += jumpVelocity;
+            jumpVelocity -= gravity;
+            if (jumpY <= 0) {
+                jumpY = 0;
+                isJumping = false;
             }
         }
-    </script>
+
+        drawPlayer();
+        createObstacle();
+        drawObstacles();
+
+        score++;
+        scoreElement.innerText = Math.floor(score/10);
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Visconde - Apoio e Respeito</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa-ameixa: #873260;
+            --rosa-claro: #fdf2f8;
+            --texto-escuro: #2d1a24;
+            --branco: #ffffff;
+            --cinza-uniforme: #8a8a8a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--rosa-claro);
+            color: var(--texto-escuro);
+            line-height: 1.6;
+        }
+
+        /* Header e Navegação */
+        header {
+            background-color: var(--rosa-ameixa);
+            color: var(--branco);
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+        nav {
+            background: #4a1b33;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        nav a:hover { color: #ffb7d5; }
+
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 20px; }
+
+        /* Seções */
+        section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        h2 { color: var(--rosa-ameixa); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+        /* Estilo Jogo Retro */
+        #game-container {
+            background: #222;
+            border: 5px solid var(--rosa-ameixa);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+        canvas {
+            background: #87ceeb; /* Céu */
+            display: block;
+            image-rendering: pixelated; /* Deixa o jogo com cara de antigo */
+        }
+
+        .game-info {
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Quizzes Avançados */
+        .quiz-card {
+            border-left: 5px solid var(--rosa-ameixa);
+            background: #fff9fb;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .opt-btn {
+            background: white;
+            border: 2px solid var(--rosa-ameixa);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+        }
+
+        .opt-btn:hover { background: var(--rosa-ameixa); color: white; }
+
+        /* Violência em Guarapuava */
+        .guarapuava-alerta {
+            background: #873260;
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .stats-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+
+        .btn-jump {
+            margin-top: 10px;
+            padding: 15px 30px;
+            background: #444;
+            color: white;
+            border: none;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Portal de Apoio Visconde</h1>
+    <p>Colégio Estadual Visconde de Guarapuava</p>
+</header>
+
+<nav>
+    <a href="#alerta">Dados Locais</a>
+    <a href="#jogo">Mini-Game Retro</a>
+    <a href="#quizzes">Quizzes Desafio</a>
+    <a href="#ajuda">Denuncie</a>
+</nav>
+
+<div class="container">
+
+    <section id="alerta" class="guarapuava-alerta">
+        <h2>⚠️ Violência em Guarapuava</h2>
+        <p>Infelizmente, nossa cidade registra altos índices de violência contra a mulher. No último ano, Guarapuava viu um aumento nas medidas protetivas e casos de feminicídio. O silêncio é o maior aliado do agressor.</p>
+        
+        <div class="stats-box">
+            <div class="stat-item">
+                <h3>NUMAPE</h3>
+                <p>O Núcleo Maria da Penha da Unicentro oferece apoio jurídico gratuito em nossa cidade.</p>
+            </div>
+            <div class="stat-item">
+                <h3>Delegacia da Mulher</h3>
+                <p>Localizada no bairro Batel, é o ponto principal de proteção em Guarapuava.</p>
+            </div>
+        </div>
+        <p style="margin-top:20px; font-weight: bold;">Estudante: Se você percebe que uma amiga está sofrendo controle ou agressão no namoro, fale com um professor agora!</p>
+    </section>
+
+    <section id="jogo">
+        <h2>🎮 Mini-Game: Respeito em Ação</h2>
+        <p>Pule sobre as "Palavras Tóxicas" (Vermelho) e colete "Apoio" (Verde). Use o uniforme do Visconde com orgulho!</p>
+        <div id="game-container">
+            <div class="game-info">
+                <span>PONTOS: <span id="score">0</span></span>
+                <span>Pressione ESPAÇO ou Botão para PULAR</span>
+            </div>
+            <canvas id="gameCanvas" width="800" height="200"></canvas>
+            <button class="btn-jump" onmousedown="jump()">PULAR!</button>
+        </div>
+    </section>
+
+    <section id="quizzes">
+        <h2>🧠 Desafios de Conscientização</h2>
+        <p>Teste seus conhecimentos sobre leis e situações reais.</p>
+
+        <div id="quiz-area">
+            <div class="quiz-card">
+                <p><strong>1. Sobre a Lei Maria da Penha, qual afirmação é correta em nível jurídico?</strong></p>
+                <div class="options-grid">
+                    <button class="opt-btn" onclick="checkQuiz(1, false)">A) Só existe crime se houver agressão física com marcas visíveis.</button>
+                    <button class="opt-btn" onclick="checkQuiz(1, true)">B) A lei abrange violência psicológica, sexual, patrimonial e moral.</button>
+                    <button class="opt-btn" onclick="checkQuiz(1, false)">C) No namoro entre jovens, a lei não se aplica, apenas após o casamento.</button>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <p><strong>2. Um colega exige a senha das redes sociais da namorada para "provar confiança". Isso se configura como:</strong></p>
+                <div class="options-grid">
+                    <button class="opt-btn" onclick="checkQuiz(2, false)">A) Uma prova de amor moderna e necessária.</button>
+                    <button class="opt-btn" onclick="checkQuiz(2, true)">B) Violência psicológica e invasão de privacidade, indícios de relacionamento abusivo.</button>
+                    <button class="opt-btn" onclick="checkQuiz(2, false)">C) Apenas cuidado excessivo que não traz riscos.</button>
+                </div>
+            </div>
+        </div>
+        <div id="quiz-result" style="font-weight: bold; text-align: center; color: var(--rosa-ameixa);"></div>
+    </section>
+
+    <section id="ajuda">
+        <h2>📞 Canais de Apoio em Guarapuava</h2>
+        <ul>
+            <li><strong>Polícia Militar:</strong> 190 (Emergências)</li>
+            <li><strong>Delegacia da Mulher Guarapuava:</strong> (42) 3630-1700</li>
+            <li><strong>Ligue 180:</strong> Central de Atendimento Nacional</li>
+            <li><strong>Equipe Pedagógica:</strong> Procure a sala da pedagoga no Colégio Visconde.</li>
+        </ul>
+    </section>
+
+</div>
+
+<div class="footer">
+    <p>Desenvolvido para o Colégio Estadual Visconde de Guarapuava.</p>
+</div>
+
+<script>
+    // --- LÓGICA DO QUIZ ---
+    function checkQuiz(question, isCorrect) {
+        const resultDiv = document.getElementById('quiz-result');
+        if(isCorrect) {
+            resultDiv.innerHTML = "✅ Resposta correta! Você entende os limites do respeito.";
+            resultDiv.style.color = "green";
+        } else {
+            resultDiv.innerHTML = "❌ Resposta incorreta. Lembre-se: violência vai muito além do contato físico.";
+            resultDiv.style.color = "red";
+        }
+    }
+
+    // --- LÓGICA DO JOGO RETRO (PIXEL ART) ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreElement = document.getElementById('score');
+
+    let score = 0;
+    let gameSpeed = 4;
+    let isJumping = false;
+    let jumpY = 0;
+    let jumpVelocity = 0;
+    const gravity = 0.8;
+
+    const player = {
+        x: 50,
+        y: 150,
+        width: 30,
+        height: 50
+    };
+
+    let obstacles = [];
+    let items = [];
+
+    function drawPlayer() {
+        const drawY = player.y - jumpY;
+        
+        // Desenho Pixel Art do Aluno do Visconde
+        // Calça Cinza
+        ctx.fillStyle = "#8a8a8a";
+        ctx.fillRect(player.x + 5, drawY + 25, 20, 25);
+        // Faixa branca na calça
+        ctx.fillStyle = "white";
+        ctx.fillRect(player.x + 22, drawY + 25, 3, 25);
+        
+        // Blusa Branca
+        ctx.fillStyle = "white";
+        ctx.fillRect(player.x, drawY + 10, 30, 20);
+        
+        // Logo Simulado (Círculos coloridos pequenos)
+        ctx.fillStyle = "red"; ctx.fillRect(player.x + 5, drawY + 15, 4, 4);
+        ctx.fillStyle = "blue"; ctx.fillRect(player.x + 10, drawY + 15, 4, 4);
+        ctx.fillStyle = "yellow"; ctx.fillRect(player.x + 15, drawY + 15, 4, 4);
+        ctx.fillStyle = "green"; ctx.fillRect(player.x + 20, drawY + 15, 4, 4);
+        
+        // Texto "V" no peito
+        ctx.fillStyle = "black";
+        ctx.font = "8px Arial";
+        ctx.fillText("V", player.x + 12, drawY + 13);
+
+        // Cabeça
+        ctx.fillStyle = "#ffdbac";
+        ctx.fillRect(player.x + 7, drawY, 16, 16);
+        // Cabelo
+        ctx.fillStyle = "#4b2c20";
+        ctx.fillRect(player.x + 7, drawY, 16, 5);
+    }
+
+    function createObstacle() {
+        if (Math.random() < 0.02) {
+            obstacles.push({ x: 850, y: 170, width: 40, height: 30, text: "TÓXICO" });
+        }
+    }
+
+    function drawObstacles() {
+        obstacles.forEach((obs, index) => {
+            obs.x -= gameSpeed;
+            ctx.fillStyle = "#ff4444";
+            ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+            ctx.fillStyle = "white";
+            ctx.font = "8px 'Press Start 2P'";
+            ctx.fillText("!", obs.x + 15, obs.y + 20);
+
+            // Colisão
+            if (player.x < obs.x + obs.width &&
+                player.x + player.width > obs.x &&
+                (player.y - jumpY) < obs.y + obs.height &&
+                (player.y - jumpY) + player.height > obs.y) {
+                gameOver();
+            }
+
+            if (obs.x < -50) obstacles.splice(index, 1);
+        });
+    }
+
+    function jump() {
+        if (!isJumping) {
+            isJumping = true;
+            jumpVelocity = 15;
+        }
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') jump();
+    });
+
+    function gameOver() {
+        alert("Ops! Você atingiu um comportamento tóxico. Vamos tentar de novo com respeito?");
+        score = 0;
+        obstacles = [];
+        scoreElement.innerText = score;
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Chão
+        ctx.fillStyle = "#555";
+        ctx.fillRect(0, 195, 800, 5);
+
+        if (isJumping) {
+            jumpY += jumpVelocity;
+            jumpVelocity -= gravity;
+            if (jumpY <= 0) {
+                jumpY = 0;
+                isJumping = false;
+            }
+        }
+
+        drawPlayer();
+        createObstacle();
+        drawObstacles();
+
+        score++;
+        scoreElement.innerText = Math.floor(score/10);
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+</script>
+
 </body>
 </html>
