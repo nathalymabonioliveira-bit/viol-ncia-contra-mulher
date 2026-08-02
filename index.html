@@ -392,4 +392,169 @@
             transition: 0.3s;
             box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4)
         }
+                .btn-call:hover {
+            transform: scale(1.05);
+            background: #ff6097;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--texto-mutado);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <span class="badge-escola">Colégio Estadual Visconde de Guarapuava</span>
+    <h1>Portal de Apoio & Respeito</h1>
+    <p>Conscientização, dados locais e rede de apoio no combate à violência contra a mulher.</p>
+</header>
+
+<div class="container">
+
+    <div class="status-tracker">
+        <div class="tracker-info">
+            <span>Progresso da Conscientização:</span>
+            <h3 id="progress-text">0 de 3 Objetivos Concluídos</h3>
+        </div>
+        <div class="progress-bar-bg">
+            <div id="global-progress"></div>
+        </div>
+    </div>
+
+    <section>
+        <h2 class="section-title">Violência contra a Mulher em Guarapuava</h2>
+        <div class="grid-cards">
+            <div class="info-card">
+                <span class="tag-local">Apoio Jurídico</span>
+                <h3>NUMAPE Unicentro</h3>
+                <p>O Núcleo Maria da Penha oferece orientação jurídica e atendimento psicológico gratuito para mulheres em situação de violência.</p>
+            </div>
+            <div class="info-card">
+                <span class="tag-local">Atendimento Especializado</span>
+                <h3>Delegacia da Mulher</h3>
+                <p>Localizada no Bairro Batel, é a unidade responsável pela investigação e aplicação de medidas protetivas de urgência.</p>
+            </div>
+            <div class="info-card">
+                <span class="tag-local">No Ambiente Escolar</span>
+                <h3>Ação Pedagógica</h3>
+                <p>Se você ou alguma colega está sofrendo controle, ameaça ou agressão, procure a equipe pedagógica do Visconde para orientação.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="game-section">
+        <h2 class="section-title">Mini-Game: Caminhos do Respeito</h2>
+        <p style="margin-bottom: 15px; color: var(--texto-mutado);">Use as setas (ou botões) para caminhar pelo colégio e conversar com as pessoas.</p>
+        
+        <div id="game-wrapper">
+            <div id="hud">
+                <span>CONSCIENTIZAÇÃO: <span id="game-score">0</span></span>
+                <span>APOIO: <div id="apoio-bar-bg"><div id="apoio-bar-fill"></div></div></span>
+            </div>
+            <canvas id="gameCanvas" width="600" height="300"></canvas>
+            
+            <div id="dialog-box">
+                <div id="dialog-title">Situação</div>
+                <div id="dialog-text">O que você faria?</div>
+                <div id="dialog-options"></div>
+            </div>
+        </div>
+
+        <div id="mobile-controls">
+            <button class="dpad-btn" id="btn-up">▲</button>
+            <button class="dpad-btn" id="btn-left">◄</button>
+            <button class="dpad-btn" id="btn-down">▼</button>
+            <button class="dpad-btn" id="btn-right">►</button>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">Quiz de Conscientização</h2>
+        
+        <div class="quiz-card" id="q1">
+            <p>1. Sobre a Lei Maria da Penha, qual alternativa está correta?</p>
+            <button class="quiz-opt" onclick="checkAnswer('q1', false, 'A lei também abrange violência psicológica, patrimonial e moral, além de relacionamentos de namoro.')">A) Aplica-se apenas se houver agressão física com marcas visíveis.</button>
+            <button class="quiz-opt" onclick="checkAnswer('q1', true, 'Exato! A lei protege contra violências física, psicológica, sexual, patrimonial e moral.')">B) Abrange violência física, psicológica, sexual, patrimonial e moral.</button>
+            <button class="quiz-opt" onclick="checkAnswer('q1', false, 'A lei também se aplica a relacionamentos de namoro entre jovens.')">C) Não se aplica a namoros entre jovens, apenas a casamentos formais.</button>
+            <div class="quiz-feedback" id="q1-feedback"></div>
+        </div>
+
+        <div class="quiz-card" id="q2">
+            <p>2. Exigir senhas de redes sociais e isolar a pessoa de amigos são sinais de:</p>
+            <button class="quiz-opt" onclick="checkAnswer('q2', false, 'Cuidado excessivo e controle sobre redes sociais são formas de violência psicológica.')">A) Apenas um cuidado excessivo comum em namoros.</button>
+            <button class="quiz-opt" onclick="checkAnswer('q2', true, 'Correto! O controle e o isolamento são formas de violência psicológica e invasão de privacidade.')">B) Violência psicológica e controle comportamental num relacionamento abusivo.</button>
+            <button class="quiz-opt" onclick="checkAnswer('q2', false, 'Essas atitudes não demonstram confiança, mas sim controle indesejado.')">C) Demonstrativo saudável de confiança entre o casal.</button>
+            <div class="quiz-feedback" id="q2-feedback"></div>
+        </div>
+    </section>
+
+    <section class="help-banner">
+        <h2>Canais de Denúncia e Ajuda</h2>
+        <p>Se você precisa de ajuda ou presenciou uma situação de violência, não se cale.</p>
+        <div>
+            <a href="tel:180" class="btn-call">Ligue 180 (Central Nacional)</a>
+            <a href="tel:190" class="btn-call">Ligue 190 (Emergência PM)</a>
+        </div>
+    </section>
+
+    <div class="footer">
+        <p>Projeto de Conscientização - Colégio Estadual Visconde de Guarapuava</p>
+    </div>
+
+</div>
+
+<script>
+    // Sistema de Progresso
+    let completedSteps = { game: false, q1: false, q2: false };
+
+    function updateGlobalProgress() {
+        let done = Object.values(completedSteps).filter(Boolean).length;
+        let percent = (done / 3) * 100;
+        document.getElementById('global-progress').style.width = percent + '%';
+        document.getElementById('progress-text').innerText = `${done} de 3 Objetivos Concluídos`;
+    }
+
+    // Lógica do Quiz
+    function checkAnswer(quizId, isCorrect, feedback) {
+        const fb = document.getElementById(quizId + '-feedback');
+        fb.style.display = 'block';
+        fb.innerText = feedback;
+        
+        if (isCorrect) {
+            fb.style.background = 'rgba(16, 185, 129, 0.2)';
+            fb.style.color = '#10b981';
+            completedSteps[quizId] = true;
+            updateGlobalProgress();
+        } else {
+            fb.style.background = 'rgba(239, 68, 68, 0.2)';
+            fb.style.color = '#ef4444';
+        }
+    }
+
+    // Mini-Game
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let player = { x: 50, y: 130, size: 20, speed: 4 };
+    let keys = {};
+    let currentNpc = null;
+
+    const npcs = [
+        {
+            x: 250, y: 130, size: 20, color: '#ff4081',
+            title: 'Situação 1: Controle de Redes',
+            text: 'Um colega pede que a namorada mostre todas as conversas para provar que é fiel. O que fazer?',
+            choices: [
+                { text: 'Orientar que isso é um controle abusivo e invade a privacidade.', correct: true },
+                { text: 'Achar normal, pois casais devem compartilhar tudo.', correct: false }
+            ]
+        },
+        {
+            x: 480, y: 130, size: 20, color: '#10b981',
+            title: 'Situação 2: Pedido de Ajuda',
+
 
