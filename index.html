@@ -11,7 +11,7 @@
             --rosa-claro: #fdf2f8;
             --texto-escuro: #2d1a24;
             --branco: #ffffff;
-            --azul-visconde: #2b6cb0;
+            --cinza-uniforme: #718096;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
@@ -34,13 +34,13 @@
             padding: 1rem;
             text-align: center;
             border-radius: 10px 10px 0 0;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
-        header h1 { font-family: 'Press Start 2P', cursive; font-size: 1.1rem; margin-bottom: 5px; }
+        header h1 { font-family: 'Press Start 2P', cursive; font-size: 1rem; margin-bottom: 5px; }
         header p { font-size: 0.85rem; }
 
-        /* Conteiner do Jogo */
+        /* Container do Jogo */
         #game-wrapper {
             width: 100%;
             max-width: 800px;
@@ -60,17 +60,19 @@
             width: 100%;
             background: #2d1a24;
             color: white;
-            padding: 10px 15px;
+            padding: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             border-bottom: 2px solid var(--rosa-ameixa);
+            flex-wrap: wrap;
+            gap: 5px;
         }
 
         .bar-container {
-            width: 120px;
+            width: 100px;
             height: 12px;
             background: #444;
             border-radius: 6px;
@@ -91,9 +93,9 @@
         canvas {
             background: #e2e8f0;
             display: block;
-            image-rendering: pixelated;
-            max-width: 100%;
+            width: 100%;
             height: auto;
+            image-rendering: pixelated;
         }
 
         /* Modal de Diálogo e Escolhas */
@@ -102,23 +104,26 @@
             bottom: 10px;
             left: 10px;
             right: 10px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             border: 3px solid var(--rosa-ameixa);
             border-radius: 8px;
-            padding: 15px;
+            padding: 12px;
             display: none;
             z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
         #dialog-title {
             font-weight: bold;
             color: var(--rosa-ameixa);
             margin-bottom: 5px;
+            font-size: 0.95rem;
         }
 
         #dialog-text {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 10px;
+            line-height: 1.4;
         }
 
         .choice-btn {
@@ -126,17 +131,18 @@
             width: 100%;
             background: var(--rosa-claro);
             border: 1px solid var(--rosa-ameixa);
-            padding: 8px;
+            padding: 10px;
             margin: 5px 0;
             border-radius: 5px;
             text-align: left;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
             transition: 0.2s;
+            font-weight: 600;
         }
 
-        .choice-btn:hover {
+        .choice-btn:hover, .choice-btn:active {
             background: var(--rosa-ameixa);
             color: white;
         }
@@ -144,11 +150,12 @@
         /* Controles Virtuais para Celular/Tablet */
         #mobile-controls {
             display: grid;
-            grid-template-columns: repeat(3, 50px);
+            grid-template-columns: repeat(3, 55px);
             grid-template-rows: repeat(2, 50px);
-            gap: 5px;
-            margin: 10px 0;
+            gap: 6px;
+            margin: 15px 0;
             justify-content: center;
+            width: 100%;
         }
 
         .dpad-btn {
@@ -157,29 +164,26 @@
             border: none;
             border-radius: 8px;
             font-family: 'Press Start 2P', cursive;
-            font-size: 1rem;
+            font-size: 1.1rem;
             display: flex;
             justify-content: center;
             align-items: center;
             user-select: none;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #5c2241;
         }
 
-        .dpad-btn:active { background: #4a1b33; }
+        .dpad-btn:active { 
+            background: #5c2241; 
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #331224;
+        }
 
-        /* Orientação dos Botões */
         #btn-up { grid-column: 2; grid-row: 1; }
         #btn-left { grid-column: 1; grid-row: 2; }
         #btn-down { grid-column: 2; grid-row: 2; }
         #btn-right { grid-column: 3; grid-row: 2; }
 
-        /* Lista de Itens Inventário */
-        #inventory-display {
-            display: flex;
-            gap: 5px;
-            font-size: 0.8rem;
-        }
-
-        /* Painel de Informações Rápidas */
         .info-panel {
             max-width: 800px;
             width: 100%;
@@ -190,11 +194,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        .info-panel h2 { color: var(--rosa-ameixa); margin-bottom: 10px; }
-
-        @media (min-width: 768px) {
-            #mobile-controls { display: none; } /* Esconde no Computador */
-        }
+        .info-panel h2 { color: var(--rosa-ameixa); margin-bottom: 10px; font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -209,7 +209,7 @@
         <div>
             APOIO: <div class="bar-container"><div id="apoio-bar"></div></div> <span id="score-text">20/100</span>
         </div>
-        <div id="inventory-display">
+        <div>
             ITENS: <span id="items-list">Nenhum</span>
         </div>
     </div>
@@ -231,13 +231,13 @@
 </div>
 
 <div class="info-panel">
-    <h2>🟣 Como jogar?</h2>
-    <p><strong>Computador:</strong> Use as setas do teclado para andar pelo Colégio Visconde. Aproxime-se dos colegas ou locais com interrogação e tome atitudes seguras.</p>
-    <p><strong>Celular/Tablet:</strong> Use os botões na tela para se movimentar.</p>
-    <p><strong>Objetivo:</strong> Atingir 80 pontos na Barra de Rede de Apoio fortalecendo a escola contra a violência de gênero e o preconceito.</p>
+    <h2>🟣 Como Jogar?</h2>
+    <p><strong>Navegação:</strong> Use os botões na tela (Celular) ou as setas do teclado / W A S D (Computador) para se movimentar pelo colégio.</p>
+    <p><strong>Ação:</strong> Aproxime-se dos colegas e pontos com a interrogação vermelha <strong>(?)</strong> para interagir e tomar atitudes seguras contra a violência.</p>
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -248,16 +248,18 @@
 
     // Jogador (Estudante do Visconde)
     const player = {
-        x: 280,
-        y: 350,
-        width: 24,
-        height: 32,
+        x: 285,
+        y: 200,
+        width: 28,
+        height: 38,
         speed: 3
     };
 
-    // Locais do Mapa (Colégio Visconde)
+    // Salas/Ambientes do Colégio Visconde
     const mapaLocais = [
-        { id: 'patio', x: 50, y: 300, width: 80, height: 60, label: 'Pátio', color: '#cbd5e0' },
-        { id: 'sala', x: 50, y: 50, width: 120, height: 80, label: 'Sala de Aula', color: '#feb2b2' },
-        { id: 'biblioteca', x: 4
+        { id: 'patio', x: 220, y: 150, width: 160, height: 110, label: 'Pátio Central', color: '#e2e8f0' },
+        { id: 'sala', x: 30, y: 30, width: 150, height: 110, label: 'Sala de Aula', color: '#fed7d7' },
+        { id: 'biblioteca', x: 420, y: 30, width: 150, height: 110, label: 'Biblioteca', color: '#feefc3' },
+        { id: 'orientacao', x: 420, y: 260, width: 150, height: 110, label: 'Orientação', color: '#c6f6d5' },
+        { id: 'corredor', x: 30, y: 260, width
 
