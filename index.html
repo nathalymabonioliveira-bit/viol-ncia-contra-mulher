@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Visconde - Dignidade e Proteção</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Portal Visconde - Dignidade, Proteção e Denúncia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --rosa-ameixa: #873260;
@@ -16,6 +16,7 @@
             --texto-mutado: #cbd5e1;
             --verde-sucesso: #10b981;
             --vermelho-alerta: #ef4444;
+            --amarelo-alerta: #f59e0b;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,9 +37,21 @@
             z-index: -1;
         }
 
+        .emergency-bar {
+            background: var(--vermelho-alerta);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-weight: 800;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
         header {
             text-align: center;
-            padding: 5rem 1rem 3rem;
+            padding: 4rem 1rem 3rem;
             background: linear-gradient(to bottom, #1a0a1a, var(--roxo-fundo));
         }
 
@@ -46,9 +59,9 @@
             background: rgba(255, 64, 129, 0.1);
             border: 1px solid var(--rosa-neon);
             color: var(--rosa-neon);
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 50px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
             display: inline-block;
@@ -56,7 +69,7 @@
         }
 
         header h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 800;
             background: linear-gradient(135deg, #fff 0%, #ff80ab 100%);
             -webkit-background-clip: text;
@@ -64,12 +77,19 @@
             margin-bottom: 1rem;
         }
 
+        header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--texto-mutado);
+            font-size: 1.1rem;
+        }
+
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-        section { margin-bottom: 5rem; animation: fadeIn 1s ease-in; }
+        section { margin-bottom: 4rem; animation: fadeIn 1s ease-in; }
 
         .section-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 2rem;
             color: var(--rosa-neon);
             display: flex;
@@ -84,6 +104,7 @@
             background: var(--card-border);
         }
 
+        /* Grids de Informação */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -98,209 +119,15 @@
             transition: 0.3s;
         }
 
-        .info-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.08); }
-
-        .game-box {
-            background: #1a0d1b;
-            border: 2px solid var(--rosa-ameixa);
-            border-radius: 20px;
-            padding: 20px;
-            position: relative;
+        .info-card:hover { 
+            transform: translateY(-5px); 
+            background: rgba(255, 255, 255, 0.08); 
         }
 
-        /* Estilos do Quebra-Cabeça (Puzzle 3x3) */
-        .puzzle-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            max-width: 360px;
-            margin: 20px auto;
-            background: var(--card-border);
-            padding: 8px;
-            border-radius: 12px;
+        .info-card h3 {
+            color: var(--rosa-neon);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
         }
 
-        .puzzle-piece {
-            aspect-ratio: 1/1;
-            background: var(--rosa-ameixa);
-            border: 2px solid var(--rosa-neon);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-            user-select: none;
-            transition: background 0.2s, transform 0.1s;
-            text-align: center;
-            padding: 5px;
-        }
-
-        .puzzle-piece:hover:not(.empty) {
-            background: var(--rosa-neon);
-        }
-
-        .puzzle-piece.empty {
-            background: transparent;
-            border: 2px dashed rgba(255, 255, 255, 0.1);
-            cursor: default;
-        }
-
-        /* Jogo da Memória */
-        .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            max-width: 500px;
-            margin: 20px auto;
-        }
-
-        .memory-card {
-            aspect-ratio: 1/1;
-            background: var(--rosa-ameixa);
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            transition: 0.3s;
-            padding: 5px;
-            text-align: center;
-        }
-
-        .memory-card.flipped { background: var(--texto-claro); color: var(--rosa-ameixa); }
-
-        /* Quiz */
-        .quiz-container { background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--card-border); }
-        
-        .quiz-opt {
-            display: block; width: 100%; padding: 15px;
-            margin: 10px 0; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1); color: white;
-            border-radius: 10px; cursor: pointer; text-align: left; transition: 0.2s;
-            font-size: 0.95rem;
-        }
-        
-        .quiz-opt:hover:not(:disabled) { background: var(--rosa-ameixa); }
-        .quiz-opt.selected-correct { background: rgba(16, 185, 129, 0.3) !important; border-color: var(--verde-sucesso) !important; color: #fff; }
-        .quiz-opt.selected-incorrect { background: rgba(239, 68, 68, 0.3) !important; border-color: var(--vermelho-alerta) !important; color: #fff; }
-
-        .feedback { margin-top: 15px; padding: 15px; border-radius: 10px; display: none; font-weight: bold; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .emergency-bar {
-            background: var(--vermelho-alerta);
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-weight: 800;
-            position: sticky;
-            top: 0;
-            z-index: 9999;
-        }
-
-        .btn-reset {
-            display: block;
-            margin: 15px auto 0;
-            padding: 10px 20px;
-            background: var(--rosa-neon);
-            border: none;
-            color: white;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-
-<div class="emergency-bar">⚠️ EM EMERGÊNCIA LIGUE 190 OU 180</div>
-
-<header>
-    <div class="badge">Educação e Respeito</div>
-    <h1>Portal de Apoio Visconde</h1>
-    <p>Uma plataforma de conscientização contra a violência, dedicada aos alunos e à comunidade de Guarapuava.</p>
-</header>
-
-<div class="container">
-
-    <section id="dados">
-        <h2 class="section-title">O Cenário em Guarapuava</h2>
-        <div class="info-grid">
-            <div class="info-card">
-                <h3>Números que Preocupam</h3>
-                <p>Nossa cidade possui altos índices de violência doméstica. O silêncio é o que permite que o ciclo continue. Conhecer seus direitos é o primeiro passo para a liberdade.</p>
-            </div>
-            <div class="info-card">
-                <h3>O Ciclo da Violência</h3>
-                <p>Começa com o controle (senhas, roupas), passa pela humilhação e chega à agressão física. Não espere o pior acontecer para pedir ajuda.</p>
-            </div>
-            <div class="info-card">
-                <h3>Rede de Apoio Local</h3>
-                <p><strong>NUMAPE (Unicentro):</strong> Apoio jurídico e psicológico gratuito.<br>
-                <strong>Delegacia da Mulher:</strong> Localizada no Batel, pronta para registrar o boletim e pedir medidas protetivas.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="quebra-cabeca">
-        <h2 class="section-title">🧩 Quebra-Cabeça da Proteção</h2>
-        <p style="margin-bottom: 15px; text-align: center;">Clique nas peças adjacentes ao espaço vazio para movê-las e organizar os passos da rede de proteção na ordem correta (1 a 8)!</p>
-        <div class="game-box">
-            <div class="puzzle-grid" id="puzzleGrid"></div>
-            <div id="puzzleMessage" style="text-align: center; font-weight: bold; color: var(--verde-sucesso); margin-top: 10px;"></div>
-            <button class="btn-reset" onclick="initPuzzle()">Embaralhar Novamente</button>
-        </div>
-    </section>
-
-    <section id="memoria">
-        <h2 class="section-title">🃏 Memória: Soluções e Ações</h2>
-        <p style="margin-bottom: 15px; text-align: center;">Encontre os pares ligando a <strong>Situação/Problema</strong> à sua respectiva <strong>Ação/Solução</strong>.</p>
-        <div class="game-box">
-            <div class="memory-grid" id="memoryGrid"></div>
-            <div id="memoryMessage" style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--verde-sucesso);"></div>
-            <button class="btn-reset" onclick="initMemoryGame()">Reiniciar Memória</button>
-        </div>
-    </section>
-
-    <section id="quiz">
-        <h2 class="section-title">🧠 Desafio de Consciência</h2>
-        <div class="quiz-container">
-            <div id="quiz-content"></div>
-        </div>
-    </section>
-
-</div>
-
-<script>
-    // ==========================================
-    // 1. SISTEMA DE QUIZZES (COM FEEDBACK VISUAL)
-    // ==========================================
-    const quizData = [
-        {
-            question: "1. A Lei Maria da Penha (Lei nº 11.340) se aplica a relacionamentos de namoro entre jovens?",
-            options: [
-                "A) Não, aplica-se exclusivamente a casais casados ou que moram juntos.",
-                "B) Sim, protege mulheres em qualquer relação íntima de afeto, independente de coabitação ou casamento.",
-                "C) Apenas se houver agressão física comprovada por laudo médico."
-            ],
-            correct: 1,
-            explanation: "Correto! A lei protege contra violência em relacionamentos íntimos de afeto (incluindo namoro), sem exigir que morem juntos e cobrindo violências física, psicológica, sexual, patrimonial e moral."
-        },
-        {
-            question: "2. Exigir senhas de redes sociais, proibir de ver amigas e controlar as roupas da parceira é considerado:",
-            options: [
-                "A) Cuidado saudável e demonstração de proteção do namorado.",
-                "B) Apenas um ciúme bobo que passa com o tempo e não traz riscos.",
-                "C) Violência psicológica e controle comportamental, indícios claros de relacionamento abusivo."
-            ],
-            correct: 2,
-            explanation: "Exato! O controle excessivo e a invasão de privacidade configuram violência psicológica e são sinais de alerta para um ciclo de abusos mais graves."
-        },
-        {
-            question: "3. Qual o papel do NUMAPE (Unicentro) e da Delegacia da Mulher em Guarapuava?",
-            options:
+        /*
