@@ -28,7 +28,6 @@
             overflow-x: hidden;
         }
 
-        /* Efeito de Fundo */
         body::before {
             content: '';
             position: fixed;
@@ -85,7 +84,6 @@
             background: var(--card-border);
         }
 
-        /* Informações Expansivas */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -102,7 +100,6 @@
 
         .info-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.08); }
 
-        /* Estilos dos Jogos */
         .game-box {
             background: #1a0d1b;
             border: 2px solid var(--rosa-ameixa);
@@ -111,7 +108,44 @@
             position: relative;
         }
 
-        canvas { width: 100%; border-radius: 10px; background: #221223; }
+        /* Estilos do Quebra-Cabeça (Puzzle 3x3) */
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 360px;
+            margin: 20px auto;
+            background: var(--card-border);
+            padding: 8px;
+            border-radius: 12px;
+        }
+
+        .puzzle-piece {
+            aspect-ratio: 1/1;
+            background: var(--rosa-ameixa);
+            border: 2px solid var(--rosa-neon);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s, transform 0.1s;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .puzzle-piece:hover:not(.empty) {
+            background: var(--rosa-neon);
+        }
+
+        .puzzle-piece.empty {
+            background: transparent;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            cursor: default;
+        }
 
         /* Jogo da Memória */
         .memory-grid {
@@ -133,19 +167,27 @@
             font-size: 1.5rem;
             font-weight: bold;
             transition: 0.3s;
+            padding: 5px;
+            text-align: center;
         }
 
         .memory-card.flipped { background: var(--texto-claro); color: var(--rosa-ameixa); }
 
-        /* Quiz Melhorado */
+        /* Quiz */
         .quiz-container { background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--card-border); }
+        
         .quiz-opt {
             display: block; width: 100%; padding: 15px;
             margin: 10px 0; background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1); color: white;
             border-radius: 10px; cursor: pointer; text-align: left; transition: 0.2s;
+            font-size: 0.95rem;
         }
-        .quiz-opt:hover { background: var(--rosa-ameixa); }
+        
+        .quiz-opt:hover:not(:disabled) { background: var(--rosa-ameixa); }
+        .quiz-opt.selected-correct { background: rgba(16, 185, 129, 0.3) !important; border-color: var(--verde-sucesso) !important; color: #fff; }
+        .quiz-opt.selected-incorrect { background: rgba(239, 68, 68, 0.3) !important; border-color: var(--vermelho-alerta) !important; color: #fff; }
+
         .feedback { margin-top: 15px; padding: 15px; border-radius: 10px; display: none; font-weight: bold; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -159,6 +201,18 @@
             position: sticky;
             top: 0;
             z-index: 9999;
+        }
+
+        .btn-reset {
+            display: block;
+            margin: 15px auto 0;
+            padding: 10px 20px;
+            background: var(--rosa-neon);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -193,37 +247,38 @@
         </div>
     </section>
 
-    <section id="runner">
-        <h2 class="section-title">🎮 Runner do Respeito</h2>
-        <p style="margin-bottom: 20px;">Pule sobre as <strong>Atitudes Tóxicas</strong> (Vermelho) para manter sua integridade.</p>
+    <section id="quebra-cabeca">
+        <h2 class="section-title">🧩 Quebra-Cabeça da Proteção</h2>
+        <p style="margin-bottom: 15px; text-align: center;">Clique nas peças adjacentes ao espaço vazio para movê-las e organizar os passos da rede de proteção na ordem correta (1 a 8)!</p>
         <div class="game-box">
-            <div id="score-board" style="font-family: 'Press Start 2P'; font-size: 12px; margin-bottom: 10px;">PONTOS: 0</div>
-            <canvas id="gameCanvas" width="800" height="200"></canvas>
-            <button onclick="jump()" style="margin-top:15px; padding: 15px 30px; font-family: 'Press Start 2P'; font-size: 10px; background: var(--rosa-neon); border: none; color: white; cursor: pointer; border-radius: 10px;">PULAR!</button>
+            <div class="puzzle-grid" id="puzzleGrid"></div>
+            <div id="puzzleMessage" style="text-align: center; font-weight: bold; color: var(--verde-sucesso); margin-top: 10px;"></div>
+            <button class="btn-reset" onclick="initPuzzle()">Embaralhar Novamente</button>
         </div>
     </section>
 
     <section id="memoria">
-        <h2 class="section-title">🧩 Memória: Soluções e Ações</h2>
-        <p>Encontre os pares ligando o <strong>Problema/Situação</strong> à sua <strong>Ação/Solução</strong>.</p>
+        <h2 class="section-title">🃏 Memória: Soluções e Ações</h2>
+        <p style="margin-bottom: 15px; text-align: center;">Encontre os pares ligando a <strong>Situação/Problema</strong> à sua respectiva <strong>Ação/Solução</strong>.</p>
         <div class="game-box">
             <div class="memory-grid" id="memoryGrid"></div>
             <div id="memoryMessage" style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--verde-sucesso);"></div>
+            <button class="btn-reset" onclick="initMemoryGame()">Reiniciar Memória</button>
         </div>
     </section>
 
     <section id="quiz">
         <h2 class="section-title">🧠 Desafio de Consciência</h2>
         <div class="quiz-container">
-            <div id="quiz-content">
-                </div>
+            <div id="quiz-content"></div>
         </div>
     </section>
 
 </div>
+
 <script>
     // ==========================================
-    // 1. SISTEMA DE QUIZZES (3 PERGUNTAS COM FEEDBACK VISUAL)
+    // 1. SISTEMA DE QUIZZES (COM FEEDBACK VISUAL)
     // ==========================================
     const quizData = [
         {
@@ -248,142 +303,4 @@
         },
         {
             question: "3. Qual o papel do NUMAPE (Unicentro) e da Delegacia da Mulher em Guarapuava?",
-            options: [
-                "A) Oferecer apoio jurídico/psicológico gratuito (NUMAPE) e investigar infrações com aplicação de medidas protetivas (Delegacia).",
-                "B) Apenas aplicar multas financeiras para quem comete pequenos deslizes no namoro.",
-                "C) Atender exclusivamente pessoas com renda acima de 5 salários mínimos."
-            ],
-            correct: 0,
-            explanation: "Perfeito! O NUMAPE oferece acolhimento psicológico e orientação jurídica gratuita na Unicentro, enquanto a Delegacia da Mulher atua na proteção direta e medidas protetivas."
-        }
-    ];
-
-    function renderQuiz() {
-        const quizContainer = document.getElementById('quiz-content');
-        quizContainer.innerHTML = '';
-
-        quizData.forEach((q, index) => {
-            const card = document.createElement('div');
-            card.style.marginBottom = '30px';
-            card.innerHTML = `
-                <p style="font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; color: var(--rosa-neon);">${q.question}</p>
-                ${q.options.map((opt, optIndex) => `
-                    <button class="quiz-opt" onclick="checkAnswer(${index}, ${optIndex})">${opt}</button>
-                `).join('')}
-                <div id="feedback-${index}" class="feedback"></div>
-            `;
-            quizContainer.appendChild(card);
-        });
-    }
-
-    function checkAnswer(qIndex, optIndex) {
-        const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
-        const currentQ = quizData[qIndex];
-
-        feedbackDiv.style.display = 'block';
-
-        if (optIndex === currentQ.correct) {
-            feedbackDiv.style.background = 'rgba(16, 185, 129, 0.2)';
-            feedbackDiv.style.border = '1px solid var(--verde-sucesso)';
-            feedbackDiv.style.color = '#10b981';
-            feedbackDiv.innerHTML = `✅ <strong>Correto!</strong> ${currentQ.explanation}`;
-        } else {
-            feedbackDiv.style.background = 'rgba(239, 68, 68, 0.2)';
-            feedbackDiv.style.border = '1px solid var(--vermelho-alerta)';
-            feedbackDiv.style.color = '#ef4444';
-            feedbackDiv.innerHTML = `❌ <strong>Incorreto.</strong> Tente novamente ou releia o conteúdo acima.`;
-        }
-    }
-
-    renderQuiz();
-
-    // ==========================================
-    // 2. JOGO DA MEMÓRIA (PROBLEMA vs SOLUÇÃO)
-    // ==========================================
-    const memoryData = [
-        { id: 1, type: 'prob', text: 'Chantagem Emocional' },
-        { id: 1, type: 'sol', text: 'Apoio Psicológico' },
-        { id: 2, type: 'prob', text: 'Agressão Física' },
-        { id: 2, type: 'sol', text: 'Ligue 180 / 190' },
-        { id: 3, type: 'prob', text: 'Controle de Redes' },
-        { id: 3, type: 'sol', text: 'Respeito à Privacidade' },
-        { id: 4, type: 'prob', text: 'Isolamento Social' },
-        { id: 4, type: 'sol', text: 'Ajuda Pedagógica' }
-    ];
-
-    let flippedCards = [];
-    let matchedPairs = 0;
-
-    function initMemoryGame() {
-        const grid = document.getElementById('memoryGrid');
-        grid.innerHTML = '';
-        const shuffled = [...memoryData].sort(() => Math.random() - 0.5);
-
-        shuffled.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.className = 'memory-card';
-            card.dataset.id = item.id;
-            card.dataset.text = item.text;
-            card.innerText = '❓';
-            card.onclick = () => flipMemoryCard(card);
-            grid.appendChild(card);
-        });
-    }
-
-    function flipMemoryCard(card) {
-        if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
-            card.classList.add('flipped');
-            card.innerText = card.dataset.text;
-            card.style.fontSize = '0.75rem';
-            card.style.padding = '5px';
-            card.style.textAlign = 'center';
-            flippedCards.push(card);
-
-            if (flippedCards.length === 2) {
-                setTimeout(checkMemoryMatch, 1000);
-            }
-        }
-    }
-
-    function checkMemoryMatch() {
-        const [c1, c2] = flippedCards;
-        if (c1.dataset.id === c2.dataset.id) {
-            c1.style.background = 'var(--verde-sucesso)';
-            c2.style.background = 'var(--verde-sucesso)';
-            c1.style.color = 'white';
-            c2.style.color = 'white';
-            matchedPairs++;
-            if (matchedPairs === 4) {
-                document.getElementById('memoryMessage').innerText = '🎉 Parabéns! Você encontrou todas as soluções!';
-            }
-        } else {
-            c1.classList.remove('flipped');
-            c2.classList.remove('flipped');
-            c1.innerText = '❓';
-            c2.innerText = '❓';
-            c1.style.fontSize = '1.5rem';
-            c2.style.fontSize = '1.5rem';
-            c1.style.background = 'var(--rosa-ameixa)';
-            c2.style.background = 'var(--rosa-ameixa)';
-        }
-        flippedCards = [];
-    }
-
-    initMemoryGame();
-
-    // ==========================================
-    // 3. MINI-GAME RUNNER DO RESPEITO
-    // ==========================================
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-
-    let score = 0;
-    let gameSpeed = 6;
-    let isJumping = false;
-    let jumpY = 0;
-    let jumpVelocity = 0;
-    const gravity = 0.7;
-
-    const player = { x: 5
-
-
+            options:
